@@ -18,32 +18,13 @@ export default function PermissionsRedirect({ subjectMetadata }) {
           />
           <div className="permissions-redirect__center-icon">
             <span className="permissions-redirect__check" />
-            {renderBrokenLine()}
+            <img src="./images/broken-line.svg" alt="broken-line" />
           </div>
           <SiteIcon icon="/images/logo/metamask-fox.svg" size={64} />
         </div>
       </div>
     </div>
   );
-
-  function renderBrokenLine() {
-    return (
-      <svg
-        width="131"
-        height="2"
-        viewBox="0 0 131 2"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M0 1H134"
-          stroke="#CDD1E4"
-          strokeLinejoin="round"
-          strokeDasharray="8 7"
-        />
-      </svg>
-    );
-  }
 }
 
 PermissionsRedirect.propTypes = {
