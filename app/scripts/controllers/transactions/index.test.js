@@ -2368,7 +2368,6 @@ describe('Transaction Controller', function () {
       });
 
       result = txStateManager.getTransaction('1');
-      console.log(result);
       assert.equal(result.estimateUsed, '0x13');
       assert.equal(result.txParams.gasPrice, '0x14');
       assert.equal(result.destinationTokenAddress, VALID_ADDRESS_TWO); // not updated even though it's passed in to update
