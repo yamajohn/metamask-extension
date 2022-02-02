@@ -1935,7 +1935,6 @@
         "addEventListener": true,
         "browser": true,
         "clearInterval": true,
-        "console.warn": true,
         "open": true,
         "setInterval": true
       },
