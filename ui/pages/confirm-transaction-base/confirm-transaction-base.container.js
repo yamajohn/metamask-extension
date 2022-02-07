@@ -53,8 +53,12 @@ import {
 import { toChecksumHexAddress } from '../../../shared/modules/hexstring-utils';
 
 import { getGasLoadingAnimationIsShowing } from '../../ducks/app/app';
-import { isLegacyTransaction } from '../../helpers/utils/transactions.util';
+import {
+  getTransactionData,
+  isLegacyTransaction,
+} from '../../helpers/utils/transactions.util';
 import { CUSTOM_GAS_ESTIMATE } from '../../../shared/constants/gas';
+import { getTokenAddressParam } from '../../helpers/utils/token-util';
 import ConfirmTransactionBase from './confirm-transaction-base.component';
 
 let customNonceValue = '';
@@ -107,9 +111,12 @@ const mapStateToProps = (state, ownProps) => {
   } = (transaction && transaction.txParams) || txParams;
   const accounts = getMetaMaskAccounts(state);
 
+  const transactionData = getTransactionData(data);
+  const tokenToAddress = getTokenAddressParam(transactionData);
+
   const { balance } = accounts[fromAddress];
   const { name: fromName } = identities[fromAddress];
-  const toAddress = propsToAddress || txParamsToAddress;
+  const toAddress = propsToAddress || tokenToAddress || txParamsToAddress;
 
   const tokenList = getTokenList(state);
   const useTokenDetection = getUseTokenDetection(state);
