@@ -3407,6 +3407,9 @@
   "testFaucet": {
     "message": "Test Faucet"
   },
+  "testNetworks": {
+    "message": "Test networks"
+  },
   "thisWillCreate": {
     "message": "This will create a new wallet and Secret Recovery Phrase"
   },
