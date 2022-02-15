@@ -863,15 +863,12 @@ export const signAndSendTransactions = (history, metaMetricsEvent) => {
       );
       await dispatch(setApproveTxId(approveTxMeta.id));
       finalApproveTxMeta = await dispatch(
-        updateSwapApprovalTransaction(
-          {
-            ...approveTxMeta,
-            estimatedBaseFee: decEstimatedBaseFee,
-            type: TRANSACTION_TYPES.SWAP_APPROVAL,
-            sourceTokenSymbol: sourceTokenInfo.symbol,
-          },
-          true,
-        ),
+        updateSwapApprovalTransaction(approveTxMeta.id, {
+          ...approveTxMeta,
+          estimatedBaseFee: decEstimatedBaseFee,
+          type: TRANSACTION_TYPES.SWAP_APPROVAL,
+          sourceTokenSymbol: sourceTokenInfo.symbol,
+        }),
       );
       try {
         await dispatch(updateAndApproveTx(finalApproveTxMeta, true));

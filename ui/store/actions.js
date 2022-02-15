@@ -671,20 +671,20 @@ const updateMetamaskStateFromBackground = () => {
   });
 };
 
-export function updateSwapApprovalTransaction(txSwapApproval, dontShowLoadingIndicator) {
+export function updateSwapApprovalTransaction(txId, txSwapApproval) {
   return async (dispatch) => {
-    !dontShowLoadingIndicator && dispatch(showLoadingIndication());
-
     try {
-      await promisifiedBackground.updateSwapApprovalTransaction(txSwapApproval.id, txSwapApproval);
+      await promisifiedBackground.updateSwapApprovalTransaction(
+        txId,
+        txSwapApproval,
+      );
     } catch (error) {
-      dispatch(hideLoadingIndication());
       dispatch(txError(error));
       dispatch(goHome());
       log.error(error.message);
       throw error;
     }
-  };    
+  };
 }
 
 export function updateTransaction(txData, dontShowLoadingIndicator) {
