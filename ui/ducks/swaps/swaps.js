@@ -18,8 +18,8 @@ import {
   setTradeTxId,
   stopPollingForQuotes,
   updateAndApproveTx,
-  updateTransaction,
   updateSwapApprovalTransaction,
+  updateSwapTransaction,
   resetBackgroundSwapsState,
   setSwapsLiveness,
   setSelectedQuoteAggId,
@@ -904,21 +904,18 @@ export const signAndSendTransactions = (history, metaMetricsEvent) => {
       return;
     }
     const finalTradeTxMeta = await dispatch(
-      updateTransaction(
-        {
-          ...tradeTxMeta,
-          estimatedBaseFee: decEstimatedBaseFee,
-          sourceTokenSymbol: sourceTokenInfo.symbol,
-          destinationTokenSymbol: destinationTokenInfo.symbol,
-          type: TRANSACTION_TYPES.SWAP,
-          destinationTokenDecimals: destinationTokenInfo.decimals,
-          destinationTokenAddress: destinationTokenInfo.address,
-          swapMetaData,
-          swapTokenValue,
-          approvalTxId: finalApproveTxMeta?.id,
-        },
-        true,
-      ),
+      updateSwapTransaction(tradeTxMeta.id, {
+        ...tradeTxMeta,
+        estimatedBaseFee: decEstimatedBaseFee,
+        sourceTokenSymbol: sourceTokenInfo.symbol,
+        destinationTokenSymbol: destinationTokenInfo.symbol,
+        type: TRANSACTION_TYPES.SWAP,
+        destinationTokenDecimals: destinationTokenInfo.decimals,
+        destinationTokenAddress: destinationTokenInfo.address,
+        swapMetaData,
+        swapTokenValue,
+        approvalTxId: finalApproveTxMeta?.id,
+      }),
     );
     try {
       await dispatch(updateAndApproveTx(finalTradeTxMeta, true));

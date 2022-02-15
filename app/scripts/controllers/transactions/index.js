@@ -2041,6 +2041,11 @@ export default class TransactionController extends EventEmitter {
           `transaction-swap-approval-updated-${txMeta.id}`,
         );
         break;
+      case TRANSACTION_EVENTS.SWAP_TRANSACTION_UPDATED:
+        id = `swap-transaction-updated-${txMeta.id}`;
+        this.updateEventFragment(id, { properties, sensitiveProperties });
+        this.finalizeEventFragment(`swap-transaction--updated-${txMeta.id}`);
+        break;
       default:
         break;
     }

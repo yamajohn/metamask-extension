@@ -687,6 +687,19 @@ export function updateSwapApprovalTransaction(txId, txSwapApproval) {
   };
 }
 
+export function updateSwapTransaction(txId, txSwap) {
+  return async (dispatch) => {
+    try {
+      await promisifiedBackground.updateSwapTransaction(txId, txSwap);
+    } catch (error) {
+      dispatch(txError(error));
+      dispatch(goHome());
+      log.error(error.message);
+      throw error;
+    }
+  };
+}
+
 export function updateTransaction(txData, dontShowLoadingIndicator) {
   return async (dispatch) => {
     !dontShowLoadingIndicator && dispatch(showLoadingIndication());
