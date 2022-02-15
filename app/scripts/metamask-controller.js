@@ -1521,8 +1521,10 @@ export default class MetamaskController extends EventEmitter {
       ),
       getTransactions: txController.getTransactions.bind(txController),
 
-      updateTransactionGasFees: txController.updateTransactionGasFees.bind(txController),
-      
+      updateTransactionGasFees: txController.updateTransactionGasFees.bind(
+        txController,
+      ),
+
       // messageManager
       signMessage: this.signMessage.bind(this),
       cancelMessage: this.cancelMessage.bind(this),
