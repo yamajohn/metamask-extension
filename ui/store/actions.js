@@ -671,6 +671,19 @@ const updateMetamaskStateFromBackground = () => {
   });
 };
 
+export function updateTransactionGasFees(txId, txGasFees) {
+  return async (dispatch) => {
+    try {
+      await promisifiedBackground.updateSwapTransaction(txId, txGasFees);
+    } catch (error) {
+      dispatch(txError(error));
+      dispatch(goHome());
+      log.error(error.message);
+      throw error;
+    }
+  };
+}
+
 export function updateTransaction(txData, dontShowLoadingIndicator) {
   return async (dispatch) => {
     !dontShowLoadingIndicator && dispatch(showLoadingIndication());

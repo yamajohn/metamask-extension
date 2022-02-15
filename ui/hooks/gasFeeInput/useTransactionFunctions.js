@@ -12,7 +12,7 @@ import {
   createSpeedUpTransaction,
   updateCustomSwapsEIP1559GasParams,
   updateSwapsUserFeeLevel,
-  updateTransaction as updateTransactionFn,
+  updateTransactionGasFees,
 } from '../../store/actions';
 
 export const useTransactionFunctions = ({
@@ -87,7 +87,7 @@ export const useTransactionFunctions = ({
         );
         dispatch(updateCustomSwapsEIP1559GasParams(newGasSettings));
       } else {
-        dispatch(updateTransactionFn(updatedTxMeta));
+        dispatch(updateTransactionGasFees(updatedTxMeta));
       }
     },
     [
