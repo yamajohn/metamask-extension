@@ -19,6 +19,7 @@ import {
   stopPollingForQuotes,
   updateAndApproveTx,
   updateTransaction,
+  updateSwapApprovalTransaction,
   resetBackgroundSwapsState,
   setSwapsLiveness,
   setSwapsFeatureFlags,
@@ -1152,7 +1153,7 @@ export const signAndSendTransactions = (history, metaMetricsEvent) => {
       );
       await dispatch(setApproveTxId(approveTxMeta.id));
       finalApproveTxMeta = await dispatch(
-        updateTransaction(
+        updateSwapApprovalTransaction(
           {
             ...approveTxMeta,
             estimatedBaseFee: decEstimatedBaseFee,
