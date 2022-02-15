@@ -1522,7 +1522,9 @@ export default class MetamaskController extends EventEmitter {
       getTransactions: txController.getTransactions.bind(txController),
 
       // update transaction methods
-      updateSwapApprovalTransaction: txController.updateSwapApprovalTransaction.bind(txController),
+      updateSwapApprovalTransaction: txController.updateSwapApprovalTransaction.bind(
+        txController,
+      ),
 
       // messageManager
       signMessage: this.signMessage.bind(this),
