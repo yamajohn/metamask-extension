@@ -699,6 +699,14 @@ export function updateSwapTransaction(txId, txSwap) {
       log.error(error.message);
       throw error;
     }
+
+    try {
+      dispatch(updateTransactionParams(txSwap.id, txSwap.txParams));
+      const newState = await updateMetamaskStateFromBackground();
+      dispatch(updateMetamaskState(newState));
+      dispatch(showConfTxPage({ id: txSwap.id }));
+      return txSwap;
+    } catch(err) {}   
   };
 }
 
