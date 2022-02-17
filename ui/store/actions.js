@@ -686,6 +686,18 @@ export function updateSwapApprovalTransaction(txId, txSwapApproval) {
       log.error(error.message);
       throw error;
     }
+
+    try {
+      dispatch(
+        updateTransactionParams(txSwapApproval.id, txSwapApproval.txParams),
+      );
+      const newState = await updateMetamaskStateFromBackground();
+      dispatch(updateMetamaskState(newState));
+      dispatch(showConfTxPage({ id: txSwapApproval.id }));
+      return txSwapApproval;
+    } finally {
+      dispatch(hideLoadingIndication());
+    }
   };
 }
 
@@ -706,7 +718,9 @@ export function updateSwapTransaction(txId, txSwap) {
       dispatch(updateMetamaskState(newState));
       dispatch(showConfTxPage({ id: txSwap.id }));
       return txSwap;
-    } catch(err) {}   
+    } finally {
+      dispatch(hideLoadingIndication());
+    }
   };
 }
 
