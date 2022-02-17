@@ -681,6 +681,16 @@ export function updateTransactionGasFees(txId, txGasFees) {
       log.error(error.message);
       throw error;
     }
+
+    try {
+      dispatch(updateTransactionParams(txGasFees.id, txGasFees.txParams));
+      const newState = await updateMetamaskStateFromBackground();
+      dispatch(updateMetamaskState(newState));
+      dispatch(showConfTxPage({ id: txGasFees.id }));
+      return txGasFees;
+    } finally {
+      dispatch(hideLoadingIndication());
+    }
   };
 }
 
