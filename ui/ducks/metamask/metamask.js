@@ -239,7 +239,7 @@ export function updateTransactionGasFees({
       ? addHexPrefix(gasLimit)
       : addHexPrefix(gasLimit.toString(16));
     dispatch(setCustomGasLimit(customGasLimit));
-    await dispatch(updateTransaction(updatedTx));
+    await dispatch(updateTransactionGasFees(updatedTx.id, updatedTx));
   };
 }
 
