@@ -11,7 +11,7 @@ import {
   checkNetworkAndAccountSupports1559,
   getAddressBook,
 } from '../../selectors';
-import { updateTransaction } from '../../store/actions';
+import { updateTransactionGasFees } from '../../store/actions';
 import { setCustomGasLimit, setCustomGasPrice } from '../gas/gas.duck';
 import { decGWEIToHexWEI } from '../../helpers/utils/conversions.util';
 import { isEqualCaseInsensitive } from '../../helpers/utils/util';
@@ -209,7 +209,7 @@ const toHexWei = (value, expectHexWei) => {
 };
 
 // Action Creators
-export function updateTransactionGasFees({
+export function updateTransaction({
   gasPrice,
   gasLimit,
   maxPriorityFeePerGas,
