@@ -41,7 +41,7 @@ import {
 import { getMostRecentOverviewPage } from '../../ducks/history/history';
 import {
   isAddressLedger,
-  updateTransactionGasFees,
+  updateTransaction,
   getIsGasEstimatesLoading,
   getNativeCurrency,
 } from '../../ducks/metamask/metamask';
@@ -283,7 +283,7 @@ export const mapDispatchToProps = (dispatch) => {
     setDefaultHomeActiveTabName: (tabName) =>
       dispatch(setDefaultHomeActiveTabName(tabName)),
     updateTransactionGasFees: (gasFees) => {
-      dispatch(updateTransactionGasFees({ ...gasFees, expectHexWei: true }));
+      dispatch(updateTransaction({ ...gasFees, expectHexWei: true }));
     },
   };
 };

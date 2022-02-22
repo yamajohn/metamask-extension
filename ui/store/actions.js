@@ -697,7 +697,10 @@ export function updateTransactionGasFees(txId, txGasFees) {
 export function updateTransactionUserSettings(txId, txUserSettings) {
   return async (dispatch) => {
     try {
-      await promisifiedBackground.updateTransactionUserSettings(txId, txUserSettings);
+      await promisifiedBackground.updateTransactionUserSettings(
+        txId,
+        txUserSettings,
+      );
     } catch (error) {
       dispatch(txError(error));
       dispatch(goHome());
@@ -706,17 +709,18 @@ export function updateTransactionUserSettings(txId, txUserSettings) {
     }
 
     try {
-      dispatch(updateTransactionParams(txGasFees.id, txGasFees.txParams));
+      dispatch(
+        updateTransactionParams(txUserSettings.id, txUserSettings.txParams),
+      );
       const newState = await updateMetamaskStateFromBackground();
       dispatch(updateMetamaskState(newState));
-      dispatch(showConfTxPage({ id: txGasFees.id }));
-      return txGasFees;
+      dispatch(showConfTxPage({ id: txUserSettings.id }));
+      return txUserSettings;
     } finally {
       dispatch(hideLoadingIndication());
     }
   };
 }
-
 
 export function updateTransaction(txData, dontShowLoadingIndicator) {
   return async (dispatch) => {

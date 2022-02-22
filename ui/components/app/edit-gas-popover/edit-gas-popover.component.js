@@ -172,6 +172,7 @@ export default function EditGasPopover({
       },
     };
 
+    const userSettings = {};
     switch (mode) {
       case EDIT_GAS_MODES.CANCEL:
         dispatch(
@@ -188,7 +189,6 @@ export default function EditGasPopover({
         );
         break;
       case EDIT_GAS_MODES.MODIFY_IN_PLACE:
-        const userSettings = {};
         userSettings.userEditedGasLimit = updatedTxMeta.userEditedGasLimit;
         userSettings.userFeeLevel = updatedTxMeta.userFeeLevel;
 
