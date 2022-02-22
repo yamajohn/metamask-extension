@@ -13,6 +13,7 @@ import {
   updateCustomSwapsEIP1559GasParams,
   updateSwapsUserFeeLevel,
   updateTransactionGasFees,
+  updateTransactionUserSettings,
 } from '../../store/actions';
 
 export const useTransactionFunctions = ({
@@ -87,7 +88,11 @@ export const useTransactionFunctions = ({
         );
         dispatch(updateCustomSwapsEIP1559GasParams(newGasSettings));
       } else {
-        dispatch(updateTransactionGasFees(updatedTxMeta));
+        const userSettings = {};
+        userSettings.userEditedGasLimit = updatedTxMeta.userEditedGasLimit;
+        userSettings.userFeeLevel = updatedTxMeta.userFeeLevel;
+        dispatch(updateTransactionGasFees(updatedTxMeta.id, newGasSettings));
+        dispatch(updateTransactionUserSettings(updatedTxMeta.id, userSettings));
       }
     },
     [
