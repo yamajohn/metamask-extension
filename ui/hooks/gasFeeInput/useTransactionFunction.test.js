@@ -145,16 +145,16 @@ describe('useMaxPriorityFeePerGasInput', () => {
     result.current.updateTransactionUsingDAPPSuggestedValues();
     expect(mockUpdateGasFees).toHaveBeenCalledTimes(1);
     expect(mockUpdateGasFees).toHaveBeenCalledWith(undefined, {
-        estimateSuggested: 'medium',
-        estimateUsed: 'dappSuggested',
-        gas: '5208',
-        gasLimit: '5208',
-        maxFeePerGas: '0x5028',
-        maxPriorityFeePerGas: '0x5028',      
+      estimateSuggested: 'medium',
+      estimateUsed: 'dappSuggested',
+      gas: '5208',
+      gasLimit: '5208',
+      maxFeePerGas: '0x5028',
+      maxPriorityFeePerGas: '0x5028',
     });
 
     expect(mockUpdateUserSettings).toHaveBeenCalledWith(undefined, {
       userFeeLevel: 'dappSuggested',
-    });   
+    });
   });
 });
