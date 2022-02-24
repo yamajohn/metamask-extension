@@ -35,6 +35,7 @@ import {
   AssetsContractController,
   CollectibleDetectionController,
 } from '@metamask/controllers';
+import SmartTransactionsController from '@metamask/smart-transactions-controller';
 import {
   PermissionController,
   SubjectMetadataController,
@@ -670,7 +671,7 @@ export default class MetamaskController extends EventEmitter {
         this.networkController,
       ),
       preferencesStore: this.preferencesController.store,
-      txHistoryLimit: 40,
+      txHistoryLimit: 60,
       signTransaction: this.keyringController.signTransaction.bind(
         this.keyringController,
       ),
@@ -696,6 +697,11 @@ export default class MetamaskController extends EventEmitter {
       getEIP1559GasFeeEstimates: this.gasFeeController.fetchGasFeeEstimates.bind(
         this.gasFeeController,
       ),
+      getExternalPendingTransactions: this.getExternalPendingTransactions.bind(
+        this,
+      ),
+      getAccountType: this.getAccountType.bind(this),
+      getDeviceModel: this.getDeviceModel.bind(this),
     });
     this.txController.on('newUnapprovedTx', () => opts.showUserConfirmation());
 
@@ -831,6 +837,24 @@ export default class MetamaskController extends EventEmitter {
         this.gasFeeController,
       ),
     });
+    this.smartTransactionsController = new SmartTransactionsController({
+      onNetworkStateChange: this.networkController.store.subscribe.bind(
+        this.networkController.store,
+      ),
+      getNetwork: this.networkController.getNetworkState.bind(
+        this.networkController,
+      ),
+      getNonceLock: this.txController.nonceTracker.getNonceLock.bind(
+        this.txController.nonceTracker,
+      ),
+      confirmExternalTransaction: this.txController.confirmExternalTransaction.bind(
+        this.txController,
+      ),
+      provider: this.provider,
+      trackMetaMetricsEvent: this.metaMetricsController.trackEvent.bind(
+        this.metaMetricsController,
+      ),
+    });
 
     // ensure accountTracker updates balances after network change
     this.networkController.on(NETWORK_EVENTS.NETWORK_DID_CHANGE, () => {
@@ -871,6 +895,7 @@ export default class MetamaskController extends EventEmitter {
       GasFeeController: this.gasFeeController,
       TokenListController: this.tokenListController,
       TokensController: this.tokensController,
+      SmartTransactionsController: this.smartTransactionsController,
       CollectiblesController: this.collectiblesController,
       ///: BEGIN:ONLY_INCLUDE_IN(flask)
       SnapController: this.snapController,
@@ -910,6 +935,7 @@ export default class MetamaskController extends EventEmitter {
         GasFeeController: this.gasFeeController,
         TokenListController: this.tokenListController,
         TokensController: this.tokensController,
+        SmartTransactionsController: this.smartTransactionsController,
         CollectiblesController: this.collectiblesController,
         ///: BEGIN:ONLY_INCLUDE_IN(flask)
         SnapController: this.snapController,
@@ -1257,6 +1283,7 @@ export default class MetamaskController extends EventEmitter {
       swapsController,
       threeBoxController,
       tokensController,
+      smartTransactionsController,
       txController,
     } = this;
 
@@ -1479,6 +1506,9 @@ export default class MetamaskController extends EventEmitter {
       updateAndApproveTransaction: txController.updateAndApproveTransaction.bind(
         txController,
       ),
+      approveTransactionsWithSameNonce: txController.approveTransactionsWithSameNonce.bind(
+        txController,
+      ),
       createCancelTransaction: this.createCancelTransaction.bind(this),
       createSpeedUpTransaction: this.createSpeedUpTransaction.bind(this),
       estimateGas: this.estimateGas.bind(this),
@@ -1626,11 +1656,40 @@ export default class MetamaskController extends EventEmitter {
         swapsController,
       ),
       setSwapsLiveness: swapsController.setSwapsLiveness.bind(swapsController),
+      setSwapsFeatureFlags: swapsController.setSwapsFeatureFlags.bind(
+        swapsController,
+      ),
       setSwapsUserFeeLevel: swapsController.setSwapsUserFeeLevel.bind(
         swapsController,
       ),
       setSwapsQuotesPollingLimitEnabled: swapsController.setSwapsQuotesPollingLimitEnabled.bind(
         swapsController,
+      ),
+
+      // Smart Transactions
+      setSmartTransactionsOptInStatus: smartTransactionsController.setOptInState.bind(
+        smartTransactionsController,
+      ),
+      fetchSmartTransactionFees: smartTransactionsController.getFees.bind(
+        smartTransactionsController,
+      ),
+      estimateSmartTransactionsGas: smartTransactionsController.estimateGas.bind(
+        smartTransactionsController,
+      ),
+      submitSignedTransactions: smartTransactionsController.submitSignedTransactions.bind(
+        smartTransactionsController,
+      ),
+      cancelSmartTransaction: smartTransactionsController.cancelSmartTransaction.bind(
+        smartTransactionsController,
+      ),
+      fetchSmartTransactionsLiveness: smartTransactionsController.fetchLiveness.bind(
+        smartTransactionsController,
+      ),
+      updateSmartTransaction: smartTransactionsController.updateSmartTransaction.bind(
+        smartTransactionsController,
+      ),
+      setStatusRefreshInterval: smartTransactionsController.setStatusRefreshInterval.bind(
+        smartTransactionsController,
       ),
 
       // MetaMetrics
@@ -2055,7 +2114,7 @@ export default class MetamaskController extends EventEmitter {
     if (deviceName === DEVICE_NAMES.LATTICE) {
       keyring.appName = 'MetaMask';
     }
-    if (deviceName === 'trezor') {
+    if (deviceName === DEVICE_NAMES.TREZOR) {
       const model = keyring.getModel();
       this.appStateController.setTrezorModel(model);
     }
@@ -2066,7 +2125,7 @@ export default class MetamaskController extends EventEmitter {
   }
 
   async attemptLedgerTransportCreation() {
-    const keyring = await this.getKeyringForDevice('ledger');
+    const keyring = await this.getKeyringForDevice(DEVICE_NAMES.LEDGER);
     return await keyring.attemptMakeApp();
   }
 
@@ -2131,6 +2190,54 @@ export default class MetamaskController extends EventEmitter {
     const keyring = await this.getKeyringForDevice(deviceName);
     keyring.forgetDevice();
     return true;
+  }
+
+  /**
+   * Retrieves the keyring for the selected address and using the .type returns
+   * a subtype for the account. Either 'hardware', 'imported' or 'MetaMask'.
+   *
+   * @param {string} address - Address to retrieve keyring for
+   * @returns {'hardware' | 'imported' | 'MetaMask'}
+   */
+  async getAccountType(address) {
+    const keyring = await this.keyringController.getKeyringForAccount(address);
+    switch (keyring.type) {
+      case KEYRING_TYPES.TREZOR:
+      case KEYRING_TYPES.LATTICE:
+      case KEYRING_TYPES.QR:
+      case KEYRING_TYPES.LEDGER:
+        return 'hardware';
+      case KEYRING_TYPES.IMPORTED:
+        return 'imported';
+      default:
+        return 'MetaMask';
+    }
+  }
+
+  /**
+   * Retrieves the keyring for the selected address and using the .type
+   * determines if a more specific name for the device is available. Returns
+   * 'N/A' for non hardware wallets.
+   *
+   * @param {string} address - Address to retrieve keyring for
+   * @returns {'ledger' | 'lattice' | 'N/A' | string}
+   */
+  async getDeviceModel(address) {
+    const keyring = await this.keyringController.getKeyringForAccount(address);
+    switch (keyring.type) {
+      case KEYRING_TYPES.TREZOR:
+        return keyring.getModel();
+      case KEYRING_TYPES.QR:
+        return keyring.getName();
+      case KEYRING_TYPES.LEDGER:
+        // TODO: get model after ledger keyring exposes method
+        return DEVICE_NAMES.LEDGER;
+      case KEYRING_TYPES.LATTICE:
+        // TODO: get model after lattice keyring exposes method
+        return DEVICE_NAMES.LATTICE;
+      default:
+        return 'N/A';
+    }
   }
 
   /**
@@ -3527,6 +3634,13 @@ export default class MetamaskController extends EventEmitter {
   // MISCELLANEOUS
   //=============================================================================
 
+  getExternalPendingTransactions(address) {
+    return this.smartTransactionsController.getTransactions({
+      addressFrom: address,
+      status: 'pending',
+    });
+  }
+
   /**
    * Returns the nonce that will be associated with a transaction once approved
    *
@@ -3728,7 +3842,7 @@ export default class MetamaskController extends EventEmitter {
       transportType,
     );
 
-    const keyring = await this.getKeyringForDevice('ledger');
+    const keyring = await this.getKeyringForDevice(DEVICE_NAMES.LEDGER);
     if (keyring?.updateTransportMethod) {
       return keyring.updateTransportMethod(newValue).catch((e) => {
         // If there was an error updating the transport, we should

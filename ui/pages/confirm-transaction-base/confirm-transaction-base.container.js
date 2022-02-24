@@ -285,6 +285,7 @@ export const mapDispatchToProps = (dispatch) => {
     updateTransactionGasFees: (gasFees) => {
       dispatch(updateTransaction({ ...gasFees, expectHexWei: true }));
     },
+    showBuyModal: () => dispatch(showModal({ name: 'DEPOSIT_ETHER' })),
   };
 };
 
