@@ -3,14 +3,170 @@ import Typography from '.';
 
 # Typography
 
-<Canvas>
-  <Story id="ui-components-ui-typography-typography-stories-js--default-story" />
-</Canvas>
+Good typography improves readability, legibility and hierarchy of information.
 
 <Canvas>
-  <Story id="ui-components-ui-typography-typography-stories-js--the-quick-orange-fox" />
+  <Story id="ui-components-ui-typography-typography-stories-js--default-story" />
 </Canvas>
 
 ## Component API
 
 <ArgsTable of={Typography} />
+
+## Usage
+
+The following describes the props and example usage for this component.
+
+### Variant
+
+Use the `variant` prop to change the font-size of the Typography component.
+
+<Canvas>
+  <Story id="ui-components-ui-typography-typography-stories-js--variant" />
+</Canvas>
+
+```jsx
+import Typography from '../../../../ui/typography';
+import { TYPOGRAPHY } from '../../../helpers/constants/design-system';
+
+<Typography variant="TYPOGRAPHY.H1">h1</Typography>
+<Typography variant="TYPOGRAPHY.H2">h2</Typography>
+<Typography variant="TYPOGRAPHY.H3">h3</Typography>
+<Typography variant="TYPOGRAPHY.H4">h4</Typography>
+<Typography variant="TYPOGRAPHY.H5">h5</Typography>
+<Typography variant="TYPOGRAPHY.H6">h6</Typography>
+<Typography variant="TYPOGRAPHY.H7">h7</Typography>
+<Typography variant="TYPOGRAPHY.H8">h8</Typography>
+<Typography variant="TYPOGRAPHY.H9">h9</Typography>
+<Typography variant="TYPOGRAPHY.Paragraph">p</Typography>
+```
+
+### Color
+
+Only the below set of colors should be used with the Typography component. This will ensure themability and consistency across the codebase
+
+<Canvas>
+  <Story id="ui-components-ui-typography-typography-stories-js--color" />
+</Canvas>
+
+```jsx
+import Typography from '../../../../ui/typography';
+import Box from '../../../../ui/box';
+
+import { COLORS } from '../../../helpers/constants/design-system';
+
+<Typography {...args} color={COLORS.TEXT_DEFAULT}>
+  COLORS.TEXT_DEFAULT
+</Typography>
+<Typography {...args} color={COLORS.TEXT_ALTERNATIVE}>
+  COLORS.TEXT_ALTERNATIVE
+</Typography>
+<Typography {...args} color={COLORS.TEXT_MUTED}>
+  COLORS.TEXT_MUTED
+</Typography>
+<Box backgroundColor={COLORS.OVERLAY_DEFAULT}>
+  <Typography {...args} color={COLORS.OVERLAY_INVERSE}>
+    COLORS.OVERLAY_INVERSE
+  </Typography>
+</Box>
+<Typography {...args} color={COLORS.PRIMARY_DEFAULT}>
+  COLORS.PRIMARY_DEFAULT
+</Typography>
+<Box backgroundColor={COLORS.PRIMARY_DEFAULT}>
+  <Typography {...args} color={COLORS.PRIMARY_INVERSE}>
+    COLORS.PRIMARY_INVERSE
+  </Typography>
+</Box>
+<Typography {...args} color={COLORS.SECONDARY_DEFAULT}>
+  COLORS.SECONDARY_DEFAULT
+</Typography>
+<Box backgroundColor={COLORS.SECONDARY_DEFAULT}>
+  <Typography {...args} color={COLORS.SECONDARY_INVERSE}>
+    COLORS.SECONDARY_INVERSE
+  </Typography>
+</Box>
+<Typography {...args} color={COLORS.ERROR_DEFAULT}>
+  COLORS.ERROR_DEFAULT
+</Typography>
+<Box backgroundColor={COLORS.ERROR_DEFAULT}>
+  <Typography {...args} color={COLORS.ERROR_INVERSE}>
+    COLORS.ERROR_INVERSE
+  </Typography>
+</Box>
+<Typography {...args} color={COLORS.SUCCESS_DEFAULT}>
+  COLORS.SUCCESS_DEFAULT
+</Typography>
+<Box backgroundColor={COLORS.SUCCESS_DEFAULT}>
+  <Typography {...args} color={COLORS.SUCCESS_INVERSE}>
+    COLORS.SUCCESS_INVERSE
+  </Typography>
+</Box>
+<Box backgroundColor={COLORS.WARNING_DEFAULT}>
+  <Typography {...args} color={COLORS.WARNING_INVERSE}>
+    COLORS.WARNING_INVERSE
+  </Typography>
+</Box>
+<Typography {...args} color={COLORS.INFO_DEFAULT}>
+  COLORS.INFO_DEFAULT
+</Typography>
+<Box backgroundColor={COLORS.INFO_DEFAULT}>
+  <Typography {...args} color={COLORS.INFO_INVERSE}>
+    COLORS.INFO_INVERSE
+  </Typography>
+</Box>
+```
+
+### Tag
+
+Use the `tag` prop to change the root html element of the Typography component
+
+<Canvas>
+  <Story id="ui-components-ui-typography-typography-stories-js--tag" />
+</Canvas>
+
+```jsx
+import Typography from '../../../../ui/typography';
+
+<Typography tag="p">p</Typography>
+<Typography tag="h1">h1</Typography>
+<Typography tag="h2">h2</Typography>
+<Typography tag="h3">h3</Typography>
+<Typography tag="h4">h4</Typography>
+<Typography tag="h5">h5</Typography>
+<Typography tag="h6">h6</Typography>
+<Typography tag="span">span</Typography>
+<br />
+<Typography tag="strong">strong</Typography>
+<br />
+<Typography tag="em">em</Typography>
+<ul>
+  <Typography tag="li">li</Typography>
+</ul>
+<Typography tag="div">div</Typography>
+<Typography tag="dt">dt</Typography>
+<Typography tag="dd">dd</Typography>
+```
+
+Renders the html
+
+```html
+<p>p</p>
+<h1>h1</h1>
+<h2>h2</h2>
+<h3>h3</h3>
+<h4>h4</h4>
+<h5>h5</h5>
+<h6>h6</h6>
+<span>span</span>
+<br>
+<strong>strong</strong>
+<br>
+<em>em</em>
+<ul>
+<li>li</li>
+</ul>
+<div>div</div>
+<dt>dt</dt>
+<dd>dd</dd>
+</div>
+```
