@@ -117,6 +117,8 @@ export default class Routes extends Component {
         pageChanged(locationObj.pathname);
       }
     });
+
+    document.documentElement.setAttribute('data-theme', 'dark');
   }
 
   renderRoutes() {

@@ -24,15 +24,15 @@
     @include H7;
 
     text-transform: uppercase;
-    color: var(--oslo-gray);
+    color: var(--color-icon-default);
     padding: 3px 8px;
-    border: 1px solid var(--oslo-gray);
+    border: 1px solid var(--color-icon-default);
     border-radius: 4px;
     display: inline-block;
   }
 
   &__nonce {
-    color: var(--oslo-gray);
+    color: var(--color-icon-default);
   }
 
   &__title {
@@ -56,13 +56,13 @@
   &__subtitle {
     @include H5;
 
-    color: var(--oslo-gray);
+    color: var(--color-icon-default);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
   &--border {
-    border-bottom: 1px solid var(--geyser);
+    border-bottom: 1px solid var(--color-border-muted);
   }
 }
