@@ -489,7 +489,7 @@ export async function checkLedgerReady(fromAddress) {
   try {
     isReady = await promisifiedBackground.checkLedgerReady(fromAddress);
   } catch (e) {
-    console.log('[actions]] ERROR! ', e);
+    log.error(e);
   }
   return isReady;
 }
