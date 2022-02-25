@@ -188,6 +188,9 @@
   "aggregatorFeeCost": {
     "message": "Αμοιβή ανταλλακτηρίου"
   },
+  "airgapVaultTutorial": {
+    "message": " (Εκμάθηση)"
+  },
   "alertDisableTooltip": {
     "message": "Αυτό μπορεί να αλλάξει στο \"Ρυθμίσεις > Ειδοποιήσεις\""
   },
@@ -2604,6 +2607,9 @@
   },
   "storePhrase": {
     "message": "Αποθηκεύστε αυτήν τη φράση σε έναν διαχειριστή κωδικών πρόσβασης όπως το 1Password."
+  },
+  "stxFailure": {
+    "message": "Η αλλαγή απέτυχε"
   },
   "submit": {
     "message": "Υποβολή"

@@ -188,6 +188,9 @@
   "aggregatorFeeCost": {
     "message": "Toplayıcı ağ ücreti"
   },
+  "airgapVaultTutorial": {
+    "message": " (Öğreticiler)"
+  },
   "alertDisableTooltip": {
     "message": "\"Ayarlar > Uyarılar\" kısmında değiştirilebilir"
   },
@@ -2604,6 +2607,9 @@
   },
   "storePhrase": {
     "message": "Bu ifadeyi 1Password gibi bir parola yöneticisinde saklayın."
+  },
+  "stxFailure": {
+    "message": "Takas işlemi başarısız oldu"
   },
   "submit": {
     "message": "Gönder"

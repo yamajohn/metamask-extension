@@ -188,6 +188,9 @@
   "aggregatorFeeCost": {
     "message": "Phí mạng cho trình tổng hợp"
   },
+  "airgapVaultTutorial": {
+    "message": " (Hướng dẫn)"
+  },
   "alertDisableTooltip": {
     "message": "Bạn có thể thay đổi trong phần \"Cài đặt > Cảnh báo\""
   },
@@ -2604,6 +2607,9 @@
   },
   "storePhrase": {
     "message": "Lưu trữ cụm mật khẩu này trong trình quản lý mật khẩu chẳng hạn như 1Password."
+  },
+  "stxFailure": {
+    "message": "Hoán đổi không thành công"
   },
   "submit": {
     "message": "Gửi"

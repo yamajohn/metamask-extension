@@ -188,6 +188,9 @@
   "aggregatorFeeCost": {
     "message": "Biaya jaringan agregator"
   },
+  "airgapVaultTutorial": {
+    "message": " (Tutorial)"
+  },
   "alertDisableTooltip": {
     "message": "Ini dapat diubah dalam \"Pengaturan > Peringatan\""
   },
@@ -2604,6 +2607,9 @@
   },
   "storePhrase": {
     "message": "Simpan frasa ini dalam pengelola kata sandi seperti 1Password."
+  },
+  "stxFailure": {
+    "message": "Swap gagal"
   },
   "submit": {
     "message": "Kirim"

@@ -188,6 +188,9 @@
   "aggregatorFeeCost": {
     "message": "Комиссия сети агрегатора"
   },
+  "airgapVaultTutorial": {
+    "message": " (Руководства)"
+  },
   "alertDisableTooltip": {
     "message": "Это можно изменить в разделе «Настройки» > «Предупреждения»"
   },
@@ -2604,6 +2607,9 @@
   },
   "storePhrase": {
     "message": "Сохраните эту фразу в диспетчере паролей, например, в 1Password."
+  },
+  "stxFailure": {
+    "message": "Обмен не удался"
   },
   "submit": {
     "message": "Отправить"

@@ -188,6 +188,9 @@
   "aggregatorFeeCost": {
     "message": "एग्रीगेटर नेटवर्क शुल्क"
   },
+  "airgapVaultTutorial": {
+    "message": " (ट्यूटोरियल)"
+  },
   "alertDisableTooltip": {
     "message": "इसे \"सेटिंग > अलर्ट\" में बदला जा सकता है"
   },
@@ -2604,6 +2607,9 @@
   },
   "storePhrase": {
     "message": "इस फ्रेज को 1Password जैसे किसी पासवर्ड मैनेजर में संग्रहीत करें।"
+  },
+  "stxFailure": {
+    "message": "स्वैप विफल रहा"
   },
   "submit": {
     "message": "सबमिट करें"
